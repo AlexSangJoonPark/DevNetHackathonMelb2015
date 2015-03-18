@@ -40,7 +40,22 @@ public class SmartService {
 		}
 
 		return Response.status(200).entity(jsonObject.toString()).build();
+	}
+	
+	@GET
+	@Path("/calibrate")
+	@Produces(MediaType.TEXT_HTML)
+	public Response calibrateHtml() {
 
+		CalibratedSensorData calibratedData = InitServlet.calibratedData;
+		JSONObject jsonObject = new JSONObject();
+		if (calibratedData != null) {
+			jsonObject.put("time", calibratedData.getDate().toString());
+			jsonObject.put("port0", calibratedData.getPort0());
+			jsonObject.put("port1", calibratedData.getPort1());
+		}
+
+		return Response.status(200).entity("<h1>"+jsonObject.toString()+"</h1>").build();
 	}
 
 	@POST
@@ -65,6 +80,15 @@ public class SmartService {
 	public Response activate() {
 
 		return Response.status(200).entity(new Boolean(InitServlet.isActivated).toString()).build();
+
+	}
+	
+	@GET
+	@Path("/activate")
+	@Produces(MediaType.TEXT_HTML)
+	public Response activateHtml() {
+
+		return Response.status(200).entity("<h1>"+new Boolean(InitServlet.isActivated).toString()+"</h1>").build();
 
 	}
 
@@ -99,6 +123,23 @@ public class SmartService {
 	}
 
 	@GET
+	@Path("/data")
+	@Produces(MediaType.TEXT_HTML)
+	public Response getDataHtml() {
+
+		SensorData currentData = InitServlet.getCurrentData();
+
+		JSONObject jsonObject = new JSONObject();
+		if (currentData != null) {
+			jsonObject.put("time", currentData.getDate().toString());
+			jsonObject.put("port0", currentData.getPort0());
+			jsonObject.put("port1", currentData.getPort1());
+		}
+		return Response.status(200).entity("<h1>"+jsonObject.toString()+"</h1>").build();
+
+	}
+	
+	@GET
 	@Path("/data_all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDataAll() {
@@ -115,6 +156,26 @@ public class SmartService {
 			jsonArray.add(jsonObject);
 		}
 		return Response.status(200).entity(jsonArray.toString()).build();
+
+	}
+	
+	@GET
+	@Path("/data_all")
+	@Produces(MediaType.TEXT_HTML)
+	public Response getDataAllHtml() {
+
+		List<SensorData> sensorData = InitServlet.getSensorData();
+
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = null;
+		for (int i = 0; i < sensorData.size(); i++) {
+			jsonObject = new JSONObject();
+			jsonObject.put("time", sensorData.get(i).getDate().toString());
+			jsonObject.put("port0", sensorData.get(i).getPort0());
+			jsonObject.put("port1", sensorData.get(i).getPort1());
+			jsonArray.add(jsonObject);
+		}
+		return Response.status(200).entity("<h1>"+jsonArray.toString()+"</h1>").build();
 
 	}
 	
@@ -162,6 +223,27 @@ public class SmartService {
 		return Response.status(200).entity(String.valueOf(InitServlet.sensitivity)).build();
 
 	}
+	
+	@GET
+	@Path("/register_id")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getRegisterId() {
+
+		return Response.status(200).entity(InitServlet.register_id).build();
+
+	}
+	
+	@POST
+	@Path("/register_id")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response setRegisterId(@FormParam("id") String id) {
+
+		InitServlet.register_id = id;
+		
+		return Response.status(200).entity(InitServlet.register_id).build();
+
+	}
+	
 	
 //	@GET
 //	@Path("/createDb")

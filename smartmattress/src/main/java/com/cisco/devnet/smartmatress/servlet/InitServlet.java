@@ -56,6 +56,7 @@ public class InitServlet extends HttpServlet {
 		return buf.toString();
 	}
 
+	public static String register_id = ""; // googleapi id to send sms msg to the device
 	public static int sensitivity = 5; // 1~10
 	public static CalibratedSensorData calibratedData = null;
 	public static boolean isActivated = false;
@@ -113,8 +114,8 @@ public class InitServlet extends HttpServlet {
 						if (isActivated && calibratedData != null) {
 							BizRule.checkNotificationRule(data, calibratedData, sensitivity, notificationQueue);
 						}
-						if (notificationQueue.size() > 0) {
-							new SmsService().sendSmsMessage(notificationQueue.poll());
+						if (!"".equals(register_id) && notificationQueue.size() > 0) {
+							new SmsService().sendSmsMessage(register_id, notificationQueue.poll());
 						}
 						
 						try {

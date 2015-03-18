@@ -20,7 +20,7 @@ public class SmsService {
 
 	private String smsUrl = "http://android.googleapis.com/gcm/send";
 	
-	public boolean sendSmsMessage(final String msg) {
+	public boolean sendSmsMessage(final String register_id, final String msg) {
 
 		Runnable collectDataRunnable = new Runnable() {
 			public void run() {
@@ -36,7 +36,7 @@ public class SmsService {
 					post.setHeader("User-Agent", "");
 				 
 					List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-					urlParameters.add(new BasicNameValuePair("registration_id", "42"));
+					urlParameters.add(new BasicNameValuePair("registration_id", register_id));
 					urlParameters.add(new BasicNameValuePair("data", "{\"notification\", \""+msg+"}"));
 					post.setEntity(new UrlEncodedFormEntity(urlParameters));
 					
