@@ -1,7 +1,7 @@
 # DevNetHackathonMelb2015
 Ciso Live Melbourne 2015 DevNet Hackathon 
 
-This web application is a middleware to fetch sensor data from Cisco DMo and pressure sensors and process the data to provide Restful interface to the client devices like as mobile or any http clients.
+This web application is a middleware to fetch sensor data from Cisco DMo & EoT and pressure sensors and process the data to provide Restful interface to the client devices like as mobile or any http clients.
 This is a application server based on Java with Tomcat. It also includes Restful service by Jersey and JSON lib.
 
 You could see RESTFul API from the index page after launch this web app in you machine.
